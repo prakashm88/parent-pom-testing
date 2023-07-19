@@ -12,8 +12,8 @@
   
 	<parent>
 		<groupId>com.itechgenie.com.apps.framework</groupId>
-		<artifactId>parent-pom</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<artifactId>parent-bom</artifactId>
+		<version>2.0.0-SNAPSHOT</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
@@ -24,19 +24,42 @@
 		<maven.compiler.target>17</maven.compiler.target>
 		<java.version>17</java.version> 
 	</properties>
+	
+	<dependencies>
+		  				<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webflux-api</artifactId>
+		</dependency>
+
+	</dependencies>
+
+
 
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
+		 	<dependency>
+				<groupId>com.itechgenie.com.apps.framework</groupId>
+				<artifactId>parent-bom</artifactId>
+				<version>1.0.0-SNAPSHOT</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
- 
+
+				<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webflux-api</artifactId>
+		</dependency>
+
 	 
-	
+	<!--
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -109,7 +132,6 @@
 			<artifactId>lombok</artifactId>
 		</dependency>
 
-		<!-- Just for the login flow purposes -->
 
 		<dependency>
 			<groupId>org.webjars.npm</groupId>
@@ -128,7 +150,6 @@
 		</dependency>
 
 
-		<!--  End -->
 
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -176,7 +197,7 @@
 			<groupId>io.lettuce</groupId>
 			<artifactId>lettuce-core</artifactId>
 		</dependency>
-
+-->
 	</dependencies>
 </dependencyManagement>
 
