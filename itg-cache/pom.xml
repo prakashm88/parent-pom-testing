@@ -4,11 +4,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.itechgenie.com.apps.framework</groupId>
-	<artifactId>itg-core</artifactId>
+	<artifactId>itg-cache</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>Itg :: Parent :: Util :: itg-core</name>
-
+	<name>Itg :: Parent :: Util :: itg-cache</name>
 
 	<parent>
 		<groupId>com.itechgenie.com.apps.framework</groupId>
@@ -23,7 +22,7 @@
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<java.version>17</java.version>
-	</properties>
+	</properties> 
 
 	<dependencyManagement>
 		<dependencies>
@@ -177,8 +176,5 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<build>
-		<finalName>${project.artifactId}</finalName>
-	</build>
 
 </project>

@@ -8,12 +8,24 @@
 	<version>2.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Itg :: Parent :: BOM :: Dependencies</name>
+	<organization>
+		<name>ITechGenie</name>
+		<url>https://itechgenie.com</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>GPLV3</name>
+		</license>
+	</licenses>
+	<scm>
+		<url>https://github.com/prakashm88</url>
+	</scm>
 
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.1</version>
+		<version>3.1.2</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
@@ -24,7 +36,19 @@
 		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.3</spring-cloud.version>
 		<spring-security-oauth2.version>2.5.2.RELEASE</spring-security-oauth2.version>
-		<spring-doc.version>2.1.0</spring-doc.version>
+		<spring-doc.version>2.2.0</spring-doc.version>
+
+
+		<!-- Repo relevant properties  -->
+
+		<itg-modules.version>1.0.0-SNAPSHOT</itg-modules.version>
+		<itg-bom.version>2.0.0-SNAPSHOT</itg-bom.version>
+		<itg-pom.version>2.0.0-SNAPSHOT</itg-pom.version>
+		<itg-core.version>${itg-modules.version}</itg-core.version>
+		<itg-cache.version>${itg-modules.version}</itg-cache.version>
+		<itg-webclient.version>${itg-modules.version}</itg-webclient.version>
+		<itg-logging.version>${itg-modules.version}</itg-logging.version>
+		<itg-security.version>${itg-modules.version}</itg-security.version>
 	</properties>
 
 	<dependencyManagement>
@@ -36,7 +60,21 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-				<dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<distributionManagement>
+		<repository>
+			<id>repsy</id>
+			<name>My Private Maven Repository on Repsy</name>
+			<url>https://repo.repsy.io/mvn/itechgenie/itg-repository</url>
+		</repository>
+	</distributionManagement>
+
+	<dependencies>
+
+		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
 			<version>${spring-doc.version}</version>
@@ -46,13 +84,6 @@
 			<artifactId>springdoc-openapi-starter-webflux-api</artifactId>
 			<version>${spring-doc.version}</version>
 		</dependency>
-	
-		</dependencies>
-	</dependencyManagement>
-
-
-	<dependencies>
-
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -83,8 +114,7 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 		</dependency>
-		
-		
+
 
 	</dependencies>
 

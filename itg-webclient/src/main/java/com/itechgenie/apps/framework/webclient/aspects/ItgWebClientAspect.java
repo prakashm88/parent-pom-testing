@@ -1,4 +1,4 @@
-package com.itechgenie.apps.framework.core.annotations;
+package com.itechgenie.apps.framework.webclient.aspects;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ItgWebClientAspect implements Ordered {
 
-	@Around("within(com.itechgenie.apps.jdk11.sb3.services.impl.FakeDataServiceImpl)")
+	@Around("within(com.itechgenie.apps.framework.**)")
 	public Object aroundExecutionForFakeDataServiceImpl(ProceedingJoinPoint joinPoint) throws Throwable {
 		long start = System.currentTimeMillis();
 		// Before method execution
@@ -27,13 +27,13 @@ public class ItgWebClientAspect implements Ordered {
 
 		// After method execution
 		log.info("After execution of: " + joinPoint.getSignature());
-		log.info("Inside ItgWebClientAspect.aroundExecutionForFakeDataServiceImpl: " + joinPoint.getSignature() + " executed in " + executionTime
-				+ "ms");
+		log.info("Inside ItgWebClientAspect.aroundExecutionForFakeDataServiceImpl: " + joinPoint.getSignature()
+				+ " executed in " + executionTime + "ms");
 
 		return result;
 	}
-	
-	@Around("within(com.itechgenie.apps.jdk11.sb3.services.impl.ItgWebClientImpl)")
+
+	@Around("within(com.itechgenie.apps.framework.webclient.services.ItgWebClientImpl)")
 	public Object aroundExecutionForItgWebClientImpl(ProceedingJoinPoint joinPoint) throws Throwable {
 		long start = System.currentTimeMillis();
 		// Before method execution
@@ -46,8 +46,8 @@ public class ItgWebClientAspect implements Ordered {
 
 		// After method execution
 		log.info("After execution of: " + joinPoint.getSignature());
-		log.info("Inside ItgWebClientAspect.aroundExecutionForItgWebClientImpl: " + joinPoint.getSignature() + " executed in " + executionTime
-				+ "ms");
+		log.info("Inside ItgWebClientAspect.aroundExecutionForItgWebClientImpl: " + joinPoint.getSignature()
+				+ " executed in " + executionTime + "ms");
 
 		return result;
 	}
@@ -70,33 +70,5 @@ public class ItgWebClientAspect implements Ordered {
 				+ "ms");
 		return proceed;
 	}
-
-	/*
-	 * //@Around("@within(ItgWebClient) && execution(* *(..))")
-	 * 
-	 * @Around("@target(itgWebClient) && execution(* *(..))") public Object
-	 * invokeProxy(ProceedingJoinPoint joinPoint, ItgWebClient itgWebClient) throws
-	 * Throwable { long start = System.currentTimeMillis();
-	 * 
-	 * Object proceed = joinPoint.proceed();
-	 * 
-	 * long executionTime = System.currentTimeMillis() - start;
-	 * 
-	 * log.info("Inside ItgWebClientAspect.invokeProxy: " + joinPoint.getSignature()
-	 * + " executed in " + executionTime + "ms"); return proceed; }
-	 */
-	/*
-	 * @Around("@annotation(ItgWebClient)") public Object
-	 * logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable { long start
-	 * = System.currentTimeMillis();
-	 * 
-	 * Object proceed = joinPoint.proceed();
-	 * 
-	 * long executionTime = System.currentTimeMillis() - start;
-	 * 
-	 * log.info("Inside ItgWebClientAspect.logExecutionTime: " +
-	 * joinPoint.getSignature() + " executed in " + executionTime + "ms"); return
-	 * proceed; }
-	 */
 
 }

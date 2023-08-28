@@ -1,4 +1,4 @@
-package com.itechgenie.apps.framework.core.annotations;
+package com.itechgenie.apps.framework.webclient.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -16,10 +16,6 @@ public @interface ItgWebClient  {
 	String id() default "app-api-service";
 
 	String url();
-
-	//String method();
-
-	//String body();
 
 	boolean isBlocking() default false;
 

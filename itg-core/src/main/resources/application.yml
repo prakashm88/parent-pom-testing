@@ -1,0 +1,21 @@
+management:
+    endpoint:
+        beans:
+            enabled: true
+        env:
+            enabled: true
+        info:
+            enabled: true
+    endpoints:
+        enabled-by-default: true
+        web:
+            exposure:
+                include: '*'
+spring:
+  security:
+    user:
+      password: Test12345_
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8899/public/protocol/openid-connect/certs

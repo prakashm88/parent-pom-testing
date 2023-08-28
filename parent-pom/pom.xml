@@ -5,15 +5,27 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.itechgenie.com.apps.framework</groupId>
 	<artifactId>parent-pom</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>2.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Itg :: Parent :: POM</name>
 
+	<organization>
+		<name>ITechGenie</name>
+		<url>https://itechgenie.com</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>GPLV3</name>
+		</license>
+	</licenses>
+	<scm>
+		<url>https://github.com/prakashm88</url>
+	</scm>
 
 	<parent>
 		<groupId>com.itechgenie.com.apps.framework</groupId>
 		<artifactId>parent-bom</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>2.0.0-SNAPSHOT</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
@@ -27,7 +39,7 @@
 	<dependencyManagement>
 		<dependencies>
 
-		<!--	<dependency>
+			<!--	<dependency>
 				<groupId>com.itechgenie.com.apps.framework</groupId>
 				<artifactId>parent-bom</artifactId>
 				<version>1.0.0-SNAPSHOT</version>
@@ -35,9 +47,61 @@
 				<scope>import</scope>
 			</dependency>
 -->
- 
+
 		</dependencies>
 	</dependencyManagement>
 
+	<dependencies>
+		<dependency>
+			<groupId>com.itechgenie.com.apps.framework</groupId>
+			<artifactId>itg-core</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.itechgenie.com.apps.framework</groupId>
+			<artifactId>itg-security</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.itechgenie.com.apps.framework</groupId>
+			<artifactId>itg-webclient</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>build-info</goal>
+						</goals>
+						<configuration>
+							<additionalProperties>
+								<framework.parent-pom>${project.version}</framework.parent-pom>
+								<framework.parent-bom>${project.version}</framework.parent-bom>
+								<framework.itg-core>${itg-modules.version}</framework.itg-core>
+								<framework.itg-cache>${itg-modules.version}</framework.itg-cache>
+								<framework.itg-security>${itg-modules.version}</framework.itg-security>
+								<framework.itg-logging>${itg-modules.version}</framework.itg-logging>
+								<framework.itg-audit>${itg-modules.version}</framework.itg-audit>
+								<framework.itg-webclient>${itg-modules.version}</framework.itg-webclient>
+							</additionalProperties>
+
+						</configuration>
+					</execution>
+				</executions>
+
+			</plugin>
+		</plugins>
+
+	</build>
 
 </project>

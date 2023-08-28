@@ -4,10 +4,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.itechgenie.com.apps.framework</groupId>
-	<artifactId>itg-core</artifactId>
+	<artifactId>itg-security</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>Itg :: Parent :: Util :: itg-core</name>
+	<name>Itg :: Parent :: Util :: itg-security</name>
 
 
 	<parent>
@@ -16,7 +16,6 @@
 		<version>2.0.0-SNAPSHOT</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -35,7 +34,18 @@
 				<scope>import</scope>
 			</dependency>
 
-			<!--
+
+			<!--		<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webflux-api</artifactId>
+			</dependency>
+
+
+			
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -177,8 +187,21 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<build>
-		<finalName>${project.artifactId}</finalName>
-	</build>
+	<dependencies>
+		<dependency>
+			<groupId>com.itechgenie.com.apps.framework</groupId>
+			<artifactId>itg-core</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
+	</dependencies>
 
 </project>
