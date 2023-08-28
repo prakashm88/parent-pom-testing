@@ -1,6 +1,7 @@
 package com.itechgenie.apps.framework.security.configs;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.web.server.ServerWebExchange;
 
 import com.itechgenie.apps.framework.security.configs.rx.CustomReactiveAuthenticationManager;
 import com.itechgenie.apps.framework.security.configs.rx.CustomReactiveUserDetailsService;
+import com.itechgenie.apps.framework.security.configs.rx.provider.CustomReactiveAuthenticationProvider;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -62,6 +64,11 @@ public class ItgRxWebSecurityConfig {
 	@Bean
 	CustomReactiveAuthenticationManager customReactiveAuthenticationManager() {
 		return new CustomReactiveAuthenticationManager(customReactiveUserDetailsService(), jwkUri);
+	}
+	
+	@Bean
+	CustomReactiveAuthenticationProvider CustomReactiveAuthenticationProvider() {
+		return new CustomReactiveAuthenticationProvider();
 	}
 
 }

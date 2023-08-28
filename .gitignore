@@ -25,7 +25,18 @@ replay_pid*
 
 
 .settings
-target/
+target/**
 */.classpath
 */.factorypath
 */.project
+*/target/**
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.logs
+*.iml
+.idea/
+.eclipse
+ 

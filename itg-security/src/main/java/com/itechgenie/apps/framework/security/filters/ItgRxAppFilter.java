@@ -1,5 +1,6 @@
 package com.itechgenie.apps.framework.security.filters;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -15,6 +16,7 @@ import reactor.util.context.Context;
 @Slf4j
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class ItgRxAppFilter implements WebFilter {
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
@@ -28,4 +30,3 @@ public class ItgRxAppFilter implements WebFilter {
 	}
 
 }
-

@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.itechgenie.com.apps.framework</groupId>
+	<groupId>com.itechgenie.apps.framework</groupId>
 	<artifactId>parent-pom</artifactId>
 	<version>2.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -23,7 +22,7 @@
 	</scm>
 
 	<parent>
-		<groupId>com.itechgenie.com.apps.framework</groupId>
+		<groupId>com.itechgenie.apps.framework</groupId>
 		<artifactId>parent-bom</artifactId>
 		<version>2.0.0-SNAPSHOT</version>
 		<relativePath /> <!-- lookup parent from repository -->
@@ -40,7 +39,7 @@
 		<dependencies>
 
 			<!--	<dependency>
-				<groupId>com.itechgenie.com.apps.framework</groupId>
+				<groupId>com.itechgenie.apps.framework</groupId>
 				<artifactId>parent-bom</artifactId>
 				<version>1.0.0-SNAPSHOT</version>
 				<type>pom</type>
@@ -53,17 +52,17 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.itechgenie.com.apps.framework</groupId>
+			<groupId>com.itechgenie.apps.framework</groupId>
 			<artifactId>itg-core</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.itechgenie.com.apps.framework</groupId>
+			<groupId>com.itechgenie.apps.framework</groupId>
 			<artifactId>itg-security</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.itechgenie.com.apps.framework</groupId>
+			<groupId>com.itechgenie.apps.framework</groupId>
 			<artifactId>itg-webclient</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
