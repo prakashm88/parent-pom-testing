@@ -1,5 +1,8 @@
 package com.itechgenie.apps.framework.security.filters;
 
+import java.util.UUID;
+
+import org.slf4j.MDC;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -25,8 +28,18 @@ public class ItgRxAppFilter implements WebFilter {
 
 		log.info("Starting a transaction for req : {}", req.getPath());
 
+		String id = generateRequestId();
+		// Set up MDC context with request-specific information
+		MDC.put("itgRequestId", id);
+		exchange.mutate().request( exchange.getRequest().mutate().header("itgRequestId", id).build());
+		//sexchange.getRequest().getHeaders().add("itgRequestId", id);
+
 		log.info("Committing a transaction for req : {}", req.getPath());
-		return chain.filter(exchange) .contextWrite(Context.of("headers", req.getHeaders()));
+		return chain.filter(exchange).contextWrite(Context.of("headers", req.getHeaders()));
+	}
+
+	private String generateRequestId() {
+		return UUID.randomUUID().toString();
 	}
 
 }

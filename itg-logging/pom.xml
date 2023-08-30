@@ -8,7 +8,7 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Itg :: Parent :: Util :: itg-logging</name>
-	
+
 	<parent>
 		<groupId>com.itechgenie.apps.framework</groupId>
 		<artifactId>parent-bom</artifactId>
@@ -33,9 +33,16 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-		  
+
 		</dependencies>
 	</dependencyManagement>
 
+	<dependencies>
+		<dependency>
+			<groupId>com.itechgenie.apps.framework</groupId>
+			<artifactId>itg-core</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 
 </project>

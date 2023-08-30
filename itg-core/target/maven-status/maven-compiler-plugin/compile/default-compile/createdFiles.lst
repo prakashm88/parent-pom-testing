@@ -1,3 +1,4 @@
+com\itechgenie\apps\framework\core\security\dtos\CustomUserDetails.class
 com\itechgenie\apps\framework\core\annotations\ItgSpringAppRx.class
 com\itechgenie\apps\framework\core\utils\AppCommonUtil.class
 com\itechgenie\apps\framework\core\annotations\ItgSpringAppNRx.class

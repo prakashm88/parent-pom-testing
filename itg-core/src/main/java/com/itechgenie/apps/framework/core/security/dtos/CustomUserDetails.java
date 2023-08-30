@@ -1,4 +1,4 @@
-package com.itechgenie.apps.framework.security.dtos;
+package com.itechgenie.apps.framework.core.security.dtos;
 
 import java.util.Collection;
 

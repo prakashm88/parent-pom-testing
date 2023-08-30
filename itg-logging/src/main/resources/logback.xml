@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+	<appender name="JSON_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+			<layout
+				class="com.itechgenie.apps.framework.logging.layouts.ItgJsonLogLayout" />
+		</encoder>
+	</appender>
+
+	<root level="INFO">
+		<appender-ref ref="JSON_APPENDER" />
+	</root>
+</configuration>
