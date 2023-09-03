@@ -80,27 +80,24 @@ public class ItgWebClientImpl {
 							.addHandlerLast(new WriteTimeoutHandler(5000, TimeUnit.MILLISECONDS)));
 		}
 
-		if (webClient == null) {
-			webClient = WebClient.builder().clientConnector(new ReactorClientHttpConnector(httpClient)) // customize
-					// the
-					// timeout
-					// options
-					// here
-					.baseUrl("https://jsonplaceholder.typicode.com").defaultCookie("cookie-name", "cookie-value")
-					.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
-		}
-
 	}
 
-	public <T> T executeWebClient(String id, String uri, HttpMethod httpMethod,
+	public <T> T executeWebClient(String id, String baseUrl, String uri, HttpMethod httpMethod,
 			MultiValueMap<String, String> headersMap, Object body, Type elementType, Class<T> returnType) {
-		log.info(id + " - uri: " + uri + " - headersMap: " + headersMap + " - body: " + body + " - elementType: "
-				+ elementType + " - returnType: " + returnType);
+		log.info(id + " - baseUrl: " + baseUrl + " - uri: " + uri + " - httpMethod: " + httpMethod + " - headersMap: "
+				+ headersMap + " - body: " + body + " - elementType: " + elementType + " - returnType: " + returnType);
 		try {
-			Mono<Authentication> auth =  getUserInfo();
+			Mono<Authentication> auth = getUserInfo();
 			log.info("Obtained auth: " + auth);
 		} catch (Exception e) {
 			log.error("Exception in executeWebClient: " + e.getMessage(), e);
+		}
+
+		if (webClient == null) {
+			webClient = WebClient.builder().clientConnector(new ReactorClientHttpConnector(httpClient)) // customize
+					// the timeout options here
+					.baseUrl(baseUrl).defaultCookie("cookie-name", "cookie-value")
+					.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
 		}
 
 		WebClient.RequestBodySpec requestSpec = webClient.method(httpMethod).uri(uri)
@@ -114,19 +111,25 @@ public class ItgWebClientImpl {
 		// if(Flux.class == elementType ) {
 		if (((ParameterizedType) elementType).getRawType() == Flux.class || Flux.class.isAssignableFrom(returnType)) {
 			log.info(id + ": " + "found flux ");
-			return (T) responseSpec.bodyToFlux(returnType);
+			Flux<T> response = responseSpec.bodyToFlux(returnType);
+			response.subscribe(data -> log.info("Response data: " + data),
+					error -> log.error("Error in response: " + error.getMessage()),
+					() -> log.info("Response completed"));
+			return (T) response;
 		} else if (((ParameterizedType) elementType).getRawType() == Mono.class) {
 			log.info(id + ": " + "found mono ");
-			return (T) responseSpec.bodyToMono(returnType);
-		} else if (ResponseEntity.class.isAssignableFrom(returnType)) {
-			log.info(id + ": " + "found ResponseEntity ");
-			return (T) responseSpec.toEntity(returnType);
+			Mono<T> response = responseSpec.bodyToMono(returnType);
+			response.subscribe(data -> log.info("Response data: " + data),
+					error -> log.error("Error in response: " + error.getMessage()),
+					() -> log.info("Response completed"));
+			return (T) response;
 		} else if (isSimpleClass(returnType)) {
 			log.info(id + ": " + "found simple ");
-			return (T) responseSpec.toEntity(returnType);
-
-			// return (T) responseSpec.toEntity(returnType.getClass());
+			T response = (T) responseSpec.toEntity(returnType);
+			log.info("Response data: " + response);
+			return response;
 		} else {
+			log.error("Unsupported return type: " + returnType);
 			throw new IllegalArgumentException("Unsupported return type: " + returnType);
 		}
 	}
@@ -136,7 +139,8 @@ public class ItgWebClientImpl {
 				+ " - attributes: " + annotation);
 
 		Annotation[] annotations = method.getDeclaredAnnotations();
-		String _uri = extractUri(method, args);
+		String baseUrl = annotation.url();
+		String uri = extractUri(method, args);
 
 		MultiValueMap<String, String> headersMap = extractHeaders(annotation);
 
@@ -153,7 +157,7 @@ public class ItgWebClientImpl {
 		log.info(id + ": " + "Return type of the method: " + returnType);
 		log.info(id + ": " + "Element type of the method: " + elementType);
 
-		return (T) executeWebClient(id, _uri, _httpMethod, headersMap, body, elementType, returnType);
+		return (T) executeWebClient(id, baseUrl, uri, _httpMethod, headersMap, body, elementType, returnType);
 
 	}
 
