@@ -11,11 +11,11 @@ public class MDCLogEventMap {
 	private Long timestamp;
 	private String level;
 	private String thread;
+	private String username;
 	private String message;
 	private String className;
 	private String methodName;
 	private Integer lineNo;
-	private String username;
 	private String authjwt;
 	private String traceId;
 	private String spanId;

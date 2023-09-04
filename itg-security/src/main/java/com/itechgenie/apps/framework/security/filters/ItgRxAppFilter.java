@@ -72,7 +72,7 @@ public class ItgRxAppFilter implements WebFilter {
 			observation.stop();
 		}
 
-		return chain.filter(exchange).contextWrite(Context.of("headers", req.getHeaders()))
+		return chain.filter(exchange).contextWrite(Context.of("itg_headers", req.getHeaders()))
 				.contextWrite(context -> context.put(ObservationThreadLocalAccessor.KEY, observation));
 	}
 

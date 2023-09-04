@@ -21,13 +21,6 @@ import reactor.core.publisher.Mono;
 @NoArgsConstructor
 public class ItgJsonLogLayout extends LayoutBase<ILoggingEvent> {
 
-	/*
-	 * private final ItgLogMessageProcessor logMessageProcessor;
-	 * 
-	 * public ItgJsonLogLayout(ItgLogMessageProcessor logMessageProcessor) {
-	 * this.logMessageProcessor = logMessageProcessor; }
-	 */
-
 	@Override
 	public String doLayout(ILoggingEvent event) {
 
@@ -37,6 +30,7 @@ public class ItgJsonLogLayout extends LayoutBase<ILoggingEvent> {
 		jsonObject.setLevel(event.getLevel().toString());
 
 		jsonObject.setItgid(MDC.get("itgRequestId"));
+		jsonObject.setItgRequestId(MDC.get("itgRequestId"));
 		jsonObject.setTraceId(MDC.get("traceId")); // Get traceId from MDC
 		jsonObject.setSpanId(MDC.get("spanId")); // Get spanId from MDC
 
@@ -51,38 +45,32 @@ public class ItgJsonLogLayout extends LayoutBase<ILoggingEvent> {
 
 		jsonObject.setThread(event.getThreadName()); // Get thread name
 
-		processLogMessage(jsonObject, event);
+		handleSecurityContextData(jsonObject, event);
 
 		jsonObject.setMessage(event.getFormattedMessage());
 		return AppCommonUtil.toJson(jsonObject) + System.lineSeparator();
 	}
 
-	public void processLogMessage(MDCLogEventMap jsonObject, ILoggingEvent event) {
-		ReactiveSecurityContextHolder.getContext().map(SecurityContext::getAuthentication)
-				.flatMap(authentication -> processAuthentication(jsonObject, authentication)).then();
-	}
-
-	private Mono<Void> processAuthentication(MDCLogEventMap jsonObject, Authentication authentication) {
-		String username = authentication.getName();
-		jsonObject.setUsername(username);
-		jsonObject.setAuthjwt(String.valueOf(authentication.getCredentials()));
-
-		log.info("Auth object: " + AppCommonUtil.toJson(authentication));
+	public void handleSecurityContextData(MDCLogEventMap jsonObject, ILoggingEvent event) {
 
 		try {
-			CustomUserDetails userDetail = (CustomUserDetails) authentication.getPrincipal();
-			MultiValueMap<String, Object> headers = userDetail.getRequestHeaders();
-			jsonObject.setItgRequestId(String.valueOf(headers.get("itgRequestId")));
+			// Attempt to fetch the security context reactively
+			Mono<SecurityContext> securityContextMono = ReactiveSecurityContextHolder.getContext();
+			securityContextMono.flatMap(securityContext -> {
+				Authentication authentication = securityContext.getAuthentication();
+				processAuthentication(jsonObject, authentication);
+				return Mono.empty();
+			}).subscribe();
 		} catch (Exception e) {
-			log.error("Exception: " + e.getMessage());
+			// If reactive fetch fails, try to fetch non-reactively
+			SecurityContext securityContext = SecurityContextHolder.getContext();
+			Authentication authentication = securityContext.getAuthentication();
+			processAuthentication(jsonObject, authentication);
 		}
 
-		return Mono.empty();
 	}
 
-	public void _processLogMessage(MDCLogEventMap jsonObject, ILoggingEvent event) {
-		SecurityContext securityContext = SecurityContextHolder.getContext();
-		Authentication authentication = securityContext.getAuthentication();
+	private void processAuthentication(MDCLogEventMap jsonObject, Authentication authentication) {
 		if (authentication != null && authentication.isAuthenticated()) {
 			String username = authentication.getName();
 			jsonObject.setUsername(username);
@@ -91,17 +79,20 @@ public class ItgJsonLogLayout extends LayoutBase<ILoggingEvent> {
 			log.info("Auth object: " + AppCommonUtil.toJson(authentication));
 
 			try {
-				CustomUserDetails userDetail = (CustomUserDetails) authentication.getPrincipal();
-				MultiValueMap<String, Object> headers = userDetail.getRequestHeaders();
+				if (authentication.getPrincipal() instanceof CustomUserDetails) {
+					CustomUserDetails userDetail = (CustomUserDetails) authentication.getPrincipal();
+					MultiValueMap<String, Object> headers = userDetail.getRequestHeaders();
+					jsonObject.setItgRequestId(String.valueOf(headers.get("Authorization")));
+				} else {
 
-				jsonObject.setItgRequestId(String.valueOf(headers.get("itgRequestId")));
-
+				}
 			} catch (Exception e) {
 				log.error("Exception: " + e.getMessage());
 			}
-
+		} else {
+			jsonObject.setUsername("NotFound");
+			jsonObject.setAuthjwt("NotFound");
 		}
-
 	}
 
 }

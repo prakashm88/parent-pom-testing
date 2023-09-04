@@ -52,7 +52,7 @@ public class CustomReactiveAuthenticationManager implements ReactiveAuthenticati
 				// .getHttpHeaderToMap(authentication); //
 				// extractRequestHeaders(exchange.getRequest());
 				 
-				 HttpHeaders headers = ctx.get("headers");
+				 HttpHeaders headers = ctx.get("itg_headers");
 				 
 				 MultiValueMap<String, Object> requestHeaders = getHttpHeaderToMap(headers);
 				 
