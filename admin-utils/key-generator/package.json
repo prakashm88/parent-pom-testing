@@ -4,6 +4,7 @@
   "description": "for generating jwt token",
   "main": "jwt-helper.js",
   "scripts": {
+	  "start": "node jwt-helper.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
