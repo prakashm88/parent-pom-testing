@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.ReactiveAuthenticationManagerResolver;
+import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.server.ServerWebExchange;
@@ -21,6 +22,7 @@ import reactor.core.publisher.Mono;
 @Configuration
 //@ConditionalOnClass(name = "org.springframework.web.reactive.config.EnableWebFluxSecurity")
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
+@EnableReactiveMethodSecurity(useAuthorizationManager=true)
 public class ItgRxWebSecurityConfig {
 
 	@Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")

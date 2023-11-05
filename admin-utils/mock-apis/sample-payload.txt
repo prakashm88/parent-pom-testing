@@ -1,0 +1,19 @@
+{
+  "iss": "https://server.example.com",
+  "sub": "sid-prakash-testing",
+  "aud": "testin",
+  "iat": 1692183960,
+  "exp": 1791870107,
+  "typ": "Bearer",
+  "azp": "jwtClient",
+  "session_state": "96030af2-1e48-4243-ba0b-dd4980c6e8fd",
+  "preferred_username": "admin@prakash.com",
+  "email_verified": false,
+  "acr": "1",
+  "scope": "profile email read",
+  "DOB": "1984-07-01",
+  "organization": "itg",
+  "client_id": "app-id",
+  "username": "test@prakash.com",
+  "active": true
+}

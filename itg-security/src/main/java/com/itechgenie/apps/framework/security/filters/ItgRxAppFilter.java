@@ -1,13 +1,16 @@
 package com.itechgenie.apps.framework.security.filters;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
@@ -31,6 +34,9 @@ import reactor.util.context.Context;
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class ItgRxAppFilter implements WebFilter {
 
+	@Autowired
+	ApplicationContext applicationContext;
+
 	@PostConstruct
 	public void initMdc() {
 		Hooks.enableAutomaticContextPropagation();
@@ -47,6 +53,7 @@ public class ItgRxAppFilter implements WebFilter {
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
 
 		ServerHttpRequest req = exchange.getRequest();
+		ServerHttpResponse res = exchange.getResponse();
 
 		String requestId = generateRequestId();
 		ScopedSpan span = null;
@@ -65,6 +72,18 @@ public class ItgRxAppFilter implements WebFilter {
 			// sexchange.getRequest().getHeaders().add("itgRequestId", id);
 
 			log.info("Committing a transaction for req : {}", req.getPath());
+
+			String[] activeProfiles = applicationContext.getEnvironment().getActiveProfiles();
+			log.debug("activeProfiles : {}", Arrays.asList(activeProfiles));
+
+			if (Arrays.asList(activeProfiles).contains("blue")) {
+				res.getHeaders().add("color-code", "blue");
+			} else if (Arrays.asList(activeProfiles).contains("green")) {
+				res.getHeaders().add("color-code", "green");
+			} else {
+				res.getHeaders().add("color-code", "NO-COLOR");
+			}
+
 		} catch (Exception e) {
 			log.error("Exception occured in ItgRxAppFilter.filter: " + e.getMessage());
 		} finally {
